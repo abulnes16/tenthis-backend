@@ -10,7 +10,6 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   store: {
     type: mongoose.SchemaTypes.ObjectId,
-    required: true,
   },
   plan: { type: mongoose.SchemaTypes.Mixed, required: true },
 });
