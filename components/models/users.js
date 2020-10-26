@@ -12,6 +12,7 @@ const userSchema = new Schema({
     type: mongoose.SchemaTypes.ObjectId,
     required: true,
   },
+  plan: { type: mongoose.SchemaTypes.Mixed, required: true },
 });
 
 module.exports = new mongoose.model("user", userSchema);

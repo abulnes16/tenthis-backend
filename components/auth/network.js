@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 
-router.get('/', (req, res)=>{
+router.get('/register', (req, res)=>{
   res.send('Hi, server is running');
 });
 
