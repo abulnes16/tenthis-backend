@@ -1,0 +1,19 @@
+{
+  "name": "tenthis-back",
+  "version": "1.0.0",
+  "description": "Backend for Tenthis Software",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Tenthis",
+    "Saas",
+    "Ecommerce"
+  ],
+  "author": "Angel Bulnes",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
