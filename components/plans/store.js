@@ -1,30 +1,57 @@
 /* Plan store module */
 
-const Model = require('../../models/plans');
+const Model = require("../../models/plans");
 
 /**
  * Get plans from database
  */
-async function getPlans(){
+async function getPlan(id) {
+  let filter = {};
+  if (id !== null) {
+    filter = { _id: id };
+  }
+
   try {
-    const plans =  await Model.find();
+    const plans = await Model.find(filter);
     return plans;
-  }catch(error){
+  } catch (error) {
     return error;
   }
 }
 
 /**
  * Create a plan and save it in database
- * @param {object} plan 
+ * @param {object} plan The plan that it's created
  */
-async function savePlan(data){
+async function savePlan(data) {
   const plan = new Model(data);
   plan.save();
 }
 
+/**
+ * Update a plan in the database
+ * @param {object} filter Filter that contains the id of the plan
+ * @param {object} data The plan data that it's going to be updated
+ */
+async function updatePlan(filter, data) {
+  const plan = await Model.findOneAndUpdate(filter, data, {
+    useFindAndModify: false,
+  });
+  return plan;
+}
+
+/**
+ * Delete a plan in the database
+ * @param {object} filter Filter that contains the id of the plan
+ */
+async function deletePlan(filter){
+  const deletePlan = await Model.deleteOne(filter);
+  return deletePlan;
+}
 
 module.exports = {
-  list: getPlans,
+  list: getPlan,
   add: savePlan,
-}
+  update: updatePlan,
+  delete: deletePlan,
+};
