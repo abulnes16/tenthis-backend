@@ -11,6 +11,8 @@ const { createValidators, updateValidators } = require("./validators");
 
 //Controller
 const controller = require("./controller");
+
+//Handlers
 const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
 
@@ -36,8 +38,11 @@ router.get(
   "/:id",
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const plans = await controller.getPlans(id);
-    response.success(req, res, plans);
+    const plan = await controller.getPlans(id);
+    if (plan.length === 0) {
+      return next(new ResponseError("Plan not found", 404));
+    }
+    response.success(req, res, plan);
   })
 );
 
@@ -112,8 +117,8 @@ router.delete(
     if (result) {
       let message = { message: "Plan deleted", status: "OK" };
       response.success(req, res, message);
-    }else {
-      return next(new ResponseError("Plan not found",404,""));
+    } else {
+      return next(new ResponseError("Plan not found", 404, ""));
     }
   })
 );
