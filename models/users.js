@@ -9,9 +9,10 @@ const userSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   store: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: Schema.ObjectId,
+    ref: 'Store',
   },
-  plan: { type: mongoose.SchemaTypes.ObjectId, required: true },
+  plan: { type: Schema.ObjectId, ref: 'Plan' },
   role: {type: String, required: true},
 });
 

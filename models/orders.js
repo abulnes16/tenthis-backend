@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const ordersSchema = new Schema({
   numOrder: Number,
-  client: { type: mongoose.SchemaTypes.ObjectId },
+  client: { type: Schema.ObjectId, ref: 'User'},
   date: Date,
   total: Number,
   products: Array,
