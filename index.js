@@ -5,6 +5,8 @@ const cors = require('cors');
 require('colors');
 // Routes
 const routes = require('./routes');
+//Error handler
+const errorHandler = require('./middlewares/errorHandler');
 
 //Load environment variables
 require('./config');
@@ -20,6 +22,8 @@ app.use(cors());
 
 // Load routes
 routes(app);
+
+app.use(errorHandler);
 
 app.listen(process.env.API_PORT, ()=>{
   console.log(`Server listening in http://localhost:${process.env.API_PORT}`.cyan);
