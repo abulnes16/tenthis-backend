@@ -1,5 +1,4 @@
 /* Plans routes module */
-require("colors");
 //Express
 const router = require("express").Router();
 

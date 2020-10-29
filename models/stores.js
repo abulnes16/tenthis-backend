@@ -11,14 +11,7 @@ const storeSchema = new Schema({
   categories: Array,
   pages: Array,
   configuration: mongoose.SchemaTypes.Mixed,
-  media: Array,
-  logo: String,
-  favicon: String,
-  keywords: Array,
-  css: String,
-  js: String,
-  header: String,
-  footer: String
+  media: Array
 });
 
 module.exports = new mongoose.model('store', storeSchema);
