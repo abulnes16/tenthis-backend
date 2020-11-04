@@ -15,7 +15,7 @@ const store = require("./store");
 /**
  * Register controller
  * Create an user and a store if
- * user role is different of client
+ * user role is owner
  * @param {object} data The user data
  */
 async function register(data) {

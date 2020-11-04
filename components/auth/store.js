@@ -29,7 +29,7 @@ async function register(user, company) {
 
 /**
  * Get user to check login
- * @param {*} email The user email
+ * @param {string} email The user email
  */
 async function getUser(email) {
   return UserModel.findOne({ email });

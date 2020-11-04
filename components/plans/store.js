@@ -1,5 +1,6 @@
 /* Plan store module */
 
+//Model
 const Model = require("../../models/plans");
 
 /**

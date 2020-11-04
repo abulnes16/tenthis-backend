@@ -16,6 +16,12 @@ const ResponseError = require("../../modules/errorResponse");
 const { registerValidators, loginValidators } = require("./validators");
 const { validationResult } = require("express-validator");
 
+
+/**
+ * @route POST /auth/register
+ * @description Endpoint for create an user in the system
+ * @access public
+ */
 router.post(
   "/register",
   registerValidators,
@@ -30,6 +36,11 @@ router.post(
   })
 );
 
+/**
+ * @route POST /auth/login
+ * @description Endpoint for login
+ * @access public
+ */
 router.post(
   "/login",
   loginValidators,

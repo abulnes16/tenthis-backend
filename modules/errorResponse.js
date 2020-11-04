@@ -1,3 +1,8 @@
+
+/**
+ * Response error class 
+ * Wrappper for Response errors 
+ */
 class ResponseError extends Error {
   constructor(message, code, body) {
     super(message);

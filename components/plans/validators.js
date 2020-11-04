@@ -1,3 +1,6 @@
+/* Plans validations module */
+
+//Express-validators
 const { body } = require("express-validator");
 
 const createValidators = [

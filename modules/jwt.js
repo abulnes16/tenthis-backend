@@ -1,3 +1,6 @@
+/* JWT module */
+
+//Response
 const ResponseError = require("./errorResponse");
 
 /**
