@@ -70,7 +70,7 @@ router.post(
       products,
       templates
     );
-    response.success(req, res, result, 201);
+    response.success(req, res, result, "Plan created", 201);
   })
 );
 
@@ -99,7 +99,7 @@ router.put(
       products,
       templates
     );
-    response.success(req, res, result);
+    response.success(req, res, result, "Plan updated");
   })
 );
 
@@ -114,8 +114,7 @@ router.delete(
     const { id } = req.params;
     const result = await controller.deletePlan(id);
     if (result) {
-      let message = { message: "Plan deleted", status: "OK" };
-      response.success(req, res, message);
+      response.success(req, res, null, "Plan deleted");
     } else {
       return next(new ResponseError("Plan not found", 404, ""));
     }

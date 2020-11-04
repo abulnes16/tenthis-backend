@@ -1,8 +1,48 @@
-const router = require('express').Router();
+/* Auth routes module */
+//Express
+const router = require("express").Router();
 
+//Controller
+const controller = require("./controller");
 
-router.get('/register', (req, res)=>{
-  res.send('Hi, server is running');
-});
+//Response
+const response = require("../../modules/response");
+
+//Middlewares
+const asyncHandler = require("../../middlewares/asyncHandler");
+const ResponseError = require("../../modules/errorResponse");
+
+//Validators
+const { registerValidators, loginValidators } = require("./validators");
+const { validationResult } = require("express-validator");
+
+router.post(
+  "/register",
+  registerValidators,
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new ResponseError("Invalid data", 400, errors.array()));
+    }
+
+    const user = await controller.register(req.body);
+    response.success(req, res, user, "User created", 201);
+  })
+);
+
+router.post(
+  "/login",
+  loginValidators,
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new ResponseError("Invalid user or password", 400));
+    }
+
+    const { email, password } = req.body;
+    const token = await controller.login(email, password);
+    response.success(req, res, token, "User logged");
+  })
+);
 
 module.exports = router;

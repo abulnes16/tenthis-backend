@@ -2,21 +2,23 @@
  * Response module
  */
 
-
-
 /**
  * Response success function.
  * Allows to respond to the client with
  * standard response.
  * @param {object} req
  * @param {object} res
- * @param {any} message
+ * @param {any} data
+ * @param {string} message
  * @param {number} status
  */
-exports.success = (req, res, message, status) => {
+exports.success = (req, res, data, message = "OK", status) => {
+  let statusCode = status || 200;
   // If everything goes ok
-  res.status(status || 200).send({
-    data: message,
+  res.status(statusCode).send({
+    status: statusCode,
+    message,
+    data,
   });
 };
 
@@ -32,8 +34,9 @@ exports.success = (req, res, message, status) => {
  */
 exports.error = (req, res, message, body, status) => {
   //If some error happens
-  
-  res.status(status || 500).send({
+  let statusCode = status || 500;
+  res.status(statusCode).send({
+    status: statusCode,
     message: message,
     errors: body,
   });
