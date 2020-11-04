@@ -40,8 +40,8 @@ router.post(
     }
 
     const { email, password } = req.body;
-    const token = await controller.login(email, password);
-    response.success(req, res, token, "User logged");
+    const data = await controller.login(email, password);
+    response.success(req, res, data, "Login successfully");
   })
 );
 

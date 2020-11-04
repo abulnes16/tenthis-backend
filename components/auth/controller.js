@@ -32,7 +32,7 @@ async function register(data) {
   };
 
   let company = null;
-  if (data.role !== "client") {
+  if (data.role === "owner") {
     company = {
       name: data.storeName,
       description: "",
@@ -68,14 +68,13 @@ async function login(email, password) {
 
   const payload = {
     id: user._id,
-    email: user.email,
     role: user.role,
   };
 
   const secret = process.env.JWT_SECRET;
 
   const token = jwt.sign(payload, secret, { expiresIn: "2h" });
-  return token;
+  return { token, role: user.role };
 }
 
 module.exports = {

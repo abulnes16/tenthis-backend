@@ -4,6 +4,10 @@ const router = require("express").Router();
 
 //Response
 const response = require("../../modules/response");
+
+//Auth
+const { auth, authorize } = require("../../middlewares/auth");
+
 //Validators
 const { validationResult } = require("express-validator");
 const { createValidators, updateValidators } = require("./validators");
@@ -22,6 +26,8 @@ const asyncHandler = require("../../middlewares/asyncHandler");
  */
 router.get(
   "/",
+  auth,
+  authorize("admin"),
   asyncHandler(async (req, res, next) => {
     const plans = await controller.getPlans();
     response.success(req, res, plans);
@@ -35,6 +41,8 @@ router.get(
  */
 router.get(
   "/:id",
+  auth,
+  authorize("admin"),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const plan = await controller.getPlans(id);
@@ -53,6 +61,8 @@ router.get(
 router.post(
   "/",
   createValidators,
+  auth,
+  authorize("admin"),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
@@ -82,6 +92,8 @@ router.post(
 router.put(
   "/:id",
   updateValidators,
+  auth,
+  authorize("admin"),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
@@ -110,6 +122,8 @@ router.put(
  */
 router.delete(
   "/:id",
+  auth,
+  authorize("admin"),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const result = await controller.deletePlan(id);

@@ -7,8 +7,6 @@ const registerValidators = [
   body("name").notEmpty().isString(),
   body("email").notEmpty().isEmail(),
   body("password").notEmpty(),
-  body("storeName").notEmpty().isString(),
-  body("plan").notEmpty(),
   body("role").notEmpty(),
 ];
 

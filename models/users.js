@@ -10,10 +10,10 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   store: {
     type: Schema.ObjectId,
-    ref: 'Store',
+    ref: "Store",
   },
-  plan: { type: Schema.ObjectId, ref: 'Plan' },
-  role: {type: String, required: true},
+  plan: { type: Schema.ObjectId, ref: "Plan", required: false },
+  role: { type: String, required: true },
 });
 
 module.exports = new mongoose.model("user", userSchema);
