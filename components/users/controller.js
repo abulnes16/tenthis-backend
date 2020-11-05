@@ -46,7 +46,22 @@ async function updateUser(id, name, email, plan, role) {
   }
 }
 
+/**
+ * User delete controller
+ * @param {string} id  User id
+ */
+async function deleteUser(id) {
+  let filter = { _id: id };
+  try {
+    const result = await store.delete(filter);
+    return result.deletedCount > 0 ? true : false;
+  } catch (error) {
+    return error;
+  }
+}
+
 module.exports = {
   getUsers,
   updateUser,
+  deleteUser
 };

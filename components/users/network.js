@@ -35,6 +35,11 @@ router.get(
   })
 );
 
+/**
+ * @route GET /user/:id
+ * @description Endpoint for get an user by id
+ * @access admin
+ */
 router.get(
   "/:id",
   auth,
@@ -49,6 +54,11 @@ router.get(
   })
 );
 
+/**
+ * @route PUT /user/
+ * @description Endpoint for update user data
+ * @access admin
+ */
 router.put(
   "/:id",
   updateValidator,
@@ -64,6 +74,21 @@ router.put(
     const { name, email, role, plan } = req.body;
     const result = await controller.updateUser(id, name, email, plan, role);
     response.success(req, res, result, "User updated");
+  })
+);
+
+router.delete(
+  "/:id",
+  auth,
+  authorize("admin"),
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const result = await controller.deleteUser(id);
+    if (result) {
+      response.success(req, res, result, "User deleted");
+    } else {
+      return next(new ResponseError("User not found", 404));
+    }
   })
 );
 

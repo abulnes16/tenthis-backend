@@ -8,7 +8,7 @@ const Model = require("../../models/users");
  * @param {object} filter Filter for search the user
  */
 function listUser(filter) {
-  return Model.find(filter).populate('plan').exec();
+  return Model.find(filter).populate("plan").exec();
 }
 
 /**
@@ -20,7 +20,16 @@ function updateUser(filter, data) {
   return Model.updateOne(filter, data);
 }
 
+/**
+ * Delete an user
+ * @param {object} filter Filter for delete the user
+ */
+function deleteUser(filter) {
+  return Model.deleteOne(filter);
+}
+
 module.exports = {
   list: listUser,
   update: updateUser,
+  delete: deleteUser,
 };
