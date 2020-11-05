@@ -8,10 +8,6 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  store: {
-    type: Schema.ObjectId,
-    ref: "Store",
-  },
   plan: { type: Schema.ObjectId, ref: "Plan", required: false },
   role: { type: String, required: true },
 });

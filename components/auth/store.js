@@ -11,16 +11,15 @@ const StoreModel = require("../../models/stores");
  */
 async function register(user, company) {
   try {
-    // Create a store if user is not a client
-    if (company) {
-      const s = new StoreModel(company);
-      const createStore = await s.save();
-      // Aggregate store id in user object
-      user.store = createStore._id;
-    }
-    //Create user
     const u = new UserModel(user);
     const createUser = await u.save();
+    // Create a store if user is not a client
+    if (company) {
+      company.user = createUser._id;
+      const s = new StoreModel(company);
+      await s.save();
+    }
+    //Create user
     return createUser;
   } catch (error) {
     return error;
