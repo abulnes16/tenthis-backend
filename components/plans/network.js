@@ -5,7 +5,7 @@ const router = require("express").Router();
 //Response
 const response = require("../../modules/response");
 
-//Auth
+//Auth middlewares
 const { auth, authorize } = require("../../middlewares/auth");
 
 //Validators
@@ -47,7 +47,7 @@ router.get(
     if (plan.length === 0) {
       return next(new ResponseError("Plan not found", 404));
     }
-    response.success(req, res, plan);
+    response.success(req, res, plan[0]);
   })
 );
 

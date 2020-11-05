@@ -6,12 +6,7 @@ const Model = require("../../models/plans");
 /**
  * Get plans from database
  */
-async function getPlan(id) {
-  let filter = {};
-  if (id !== null) {
-    filter = { _id: id };
-  }
-
+async function getPlan(filter) {
   try {
     const plans = await Model.find(filter);
     return plans;

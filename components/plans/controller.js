@@ -1,13 +1,20 @@
 /* Plans controller module */
 
 //Modules
+const ResponseError = require("../../modules/errorResponse");
 const store = require("./store");
 
 /**
  * Get plans controller
+ * @param {string} id The plan id
  */
 function getPlans(id = null) {
-  return store.list(id);
+  let filter = {};
+  if (id !== null) {
+    filter = { _id: id };
+  }
+
+  return store.list(filter);
 }
 
 /**
@@ -66,8 +73,12 @@ async function updatePlan(
       numTemplates: templates,
     };
     let filter = { _id: id };
-    await store.update(filter, plan);
-    return plan;
+    const p = await store.update(filter, plan);
+    if (p.n > 0) {
+      return plan;
+    } else {
+      throw new ResponseError("Fail update: Plan not found", 404);
+    }
   } catch (error) {
     return error;
   }
