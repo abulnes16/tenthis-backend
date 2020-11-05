@@ -22,12 +22,10 @@ const asyncHandler = require("../../middlewares/asyncHandler");
 /**
  * @route GET /plan/
  * @description Endpoint for get plans
- * @access admin
+ * @access public
  */
 router.get(
   "/",
-  auth,
-  authorize("admin"),
   asyncHandler(async (req, res, next) => {
     const plans = await controller.getPlans();
     response.success(req, res, plans);

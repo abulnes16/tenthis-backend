@@ -74,7 +74,7 @@ async function login(email, password) {
   const secret = process.env.JWT_SECRET;
 
   const token = jwt.sign(payload, secret, { expiresIn: "2h" });
-  return { token, role: user.role };
+  return { token };
 }
 
 module.exports = {
