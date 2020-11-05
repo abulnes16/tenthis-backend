@@ -55,7 +55,7 @@ router.get(
 );
 
 /**
- * @route PUT /user/
+ * @route PUT /user/:id
  * @description Endpoint for update user data
  * @access admin
  */
@@ -77,6 +77,11 @@ router.put(
   })
 );
 
+/**
+ * @route DELETE /user/:id
+ * @description Endpoint for delete an user 
+ * @access admin
+ */
 router.delete(
   "/:id",
   auth,
