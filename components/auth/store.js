@@ -31,7 +31,7 @@ async function register(user, company) {
  * @param {string} email The user email
  */
 async function getUser(email) {
-  return UserModel.findOne({ email });
+  return UserModel.findOne({ email }).select("+password");
 }
 
 module.exports = {

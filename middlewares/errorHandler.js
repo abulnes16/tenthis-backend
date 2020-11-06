@@ -25,7 +25,6 @@ const errorHandler = (err, req, res, next) => {
     message = err.message;
   }
 
-
   return response.error(req, res, message, error.body, error.code);
 };
 

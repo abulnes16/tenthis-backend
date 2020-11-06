@@ -28,7 +28,7 @@ const { auth, authorize } = require("../../middlewares/auth");
 router.get(
   "/",
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const users = await controller.getUsers();
     response.success(req, res, users);
@@ -43,7 +43,7 @@ router.get(
 router.get(
   "/:id",
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const user = await controller.getUsers(id);
@@ -63,7 +63,7 @@ router.put(
   "/:id",
   updateValidator,
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
@@ -85,7 +85,7 @@ router.put(
 router.delete(
   "/:id",
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const result = await controller.deleteUser(id);

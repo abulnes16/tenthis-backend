@@ -40,7 +40,7 @@ router.get(
 router.get(
   "/:id",
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const plan = await controller.getPlans(id);
@@ -60,7 +60,7 @@ router.post(
   "/",
   createValidators,
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
@@ -91,7 +91,7 @@ router.put(
   "/:id",
   updateValidators,
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
@@ -121,7 +121,7 @@ router.put(
 router.delete(
   "/:id",
   auth,
-  authorize("admin"),
+  authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const result = await controller.deletePlan(id);

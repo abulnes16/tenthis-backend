@@ -34,14 +34,14 @@ function auth(req, res, next) {
  * who can use the resource
  * @param {string} role
  */
-function authorize(role) {
+function authorize(roles) {
   return (req, res, next) => {
-    if (role !== req.user.role) {
-      response.error(
+    if (!roles.includes(req.user.role)) {
+      return response.error(
         req,
         res,
         `User with role ${req.user.role} is not authorize to use this resource`,
-        null,
+        "Invalid token",
         403
       );
     }
