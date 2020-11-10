@@ -13,7 +13,7 @@ const storeSchema = new Schema({
   pages: Array,
   configuration: mongoose.SchemaTypes.Mixed,
   media: Array,
-  blocked: Boolean,
+  isBlock: Boolean,
   isActive: Boolean,
 });
 

@@ -41,7 +41,7 @@ async function register(data) {
       pages: [],
       configuration: null,
       media: [],
-      blocked: false,
+      isBlock: false,
       isActive: true,
     };
   }

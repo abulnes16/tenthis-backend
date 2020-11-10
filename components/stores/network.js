@@ -12,6 +12,7 @@ const asyncHandler = require("../../middlewares/asyncHandler");
 
 //Controller
 const controller = require("./controller");
+const ResponseError = require("../../modules/errorResponse");
 
 /**
  * @route GET /store
@@ -41,6 +42,42 @@ router.get(
     const { id } = req.params;
     const stores = await controller.getStores(id);
     response.success(req, res, stores);
+  })
+);
+
+/**
+ * @route PATCH /store/:id/block
+ * @description Endpoint for block a store by id
+ * @access admin
+ */
+router.patch(
+  "/:id/block",
+  auth,
+  authorize(["admin"]),
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const blockStore = await controller.blockStore(id);
+    response.success(req, res, blockStore, "Store block successfully");
+  })
+);
+
+/**
+ * @route DELETE /store/:id
+ * @description Endpoint for deleting a store by id
+ * @access admin
+ */
+router.delete(
+  "/:id",
+  auth,
+  authorize(["admin"]),
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const deletedStore = await controller.deleteStore(id);
+
+    if (deletedStore.deletedCount === 0) {
+      return next(new ResponseError("Store not found", 404));
+    }
+    response.success(req, res, null, "Store deleted");
   })
 );
 
