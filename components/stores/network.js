@@ -10,6 +10,10 @@ const response = require("../../modules/response");
 const { auth, authorize } = require("../../middlewares/auth");
 const asyncHandler = require("../../middlewares/asyncHandler");
 
+//Validators
+const { validationResult } = require("express-validator");
+const { blockValidator } = require("./validators");
+
 //Controller
 const controller = require("./controller");
 const ResponseError = require("../../modules/errorResponse");
@@ -47,17 +51,34 @@ router.get(
 
 /**
  * @route PATCH /store/:id/block
+ * @query {boolean} unblock Flag that indicates if the store is going to be unlock
  * @description Endpoint for block a store by id
  * @access admin
  */
 router.patch(
   "/:id/block",
+  blockValidator,
   auth,
   authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
+    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new ResponseError("Invalid query", 400, errors.array()));
+    }
+
+    const { unblock } = req.query;
     const { id } = req.params;
-    const blockStore = await controller.blockStore(id);
-    response.success(req, res, blockStore, "Store block successfully");
+
+    let flag = unblock ? true : false;
+    let message = flag ? "unblock" : "block";
+
+    const blockStore = await controller.blockStore(id, flag);
+
+    if (blockStore.length === 0) {
+      return next(new ResponseError("Store not found", 404));
+    }
+    response.success(req, res, blockStore, `Store ${message} successfully`);
   })
 );
 

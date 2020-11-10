@@ -19,19 +19,23 @@ function getStores(id = null) {
 /**
  * Block store controller, set the
  * isBlock to true and isActive to false to
- * block the current store
+ * block the current store if block flag is true,
+ * if block flag is set to false the store is unblock
  * @param {string} id  Store id
  */
-function blockStore(id) {
+function blockStore(id, unblock) {
   let filter = { _id: id };
-  let data = { $set: { isBlock: true, isActive: false } };
+  let data = unblock
+    ? { $set: { isBlock: false, isActive: true } }
+    : { $set: { isBlock: true, isActive: false } };
+
   return store.block(filter, data);
 }
 
 /**
  * Delete store controller, deletes a store
  * by id
- * @param {string} id Store id
+ * @param {string} id
  */
 function deleteStore(id) {
   let filter = { _id: id };
