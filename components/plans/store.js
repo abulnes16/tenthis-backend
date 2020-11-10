@@ -30,9 +30,7 @@ async function savePlan(data) {
  * @param {object} data The plan data that it's going to be updated
  */
 async function updatePlan(filter, data) {
-  const plan = await Model.findOneAndUpdate(filter, data, {
-    useFindAndModify: false,
-  });
+  const plan = await Model.findOneAndUpdate(filter, data);
   return plan;
 }
 
