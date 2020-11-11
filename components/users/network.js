@@ -11,7 +11,7 @@ const response = require("../../modules/response");
 
 //Validators
 const { validationResult } = require("express-validator");
-const { updateValidator } = require("./validators");
+const { Validator } = require("./validators");
 
 //Handlers
 const ResponseError = require("../../modules/errorResponse");
@@ -61,7 +61,7 @@ router.get(
  */
 router.put(
   "/:id",
-  updateValidator,
+  Validator,
   auth,
   authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
@@ -79,7 +79,7 @@ router.put(
 
 /**
  * @route DELETE /user/:id
- * @description Endpoint for delete an user 
+ * @description Endpoint for delete an user
  * @access admin
  */
 router.delete(
