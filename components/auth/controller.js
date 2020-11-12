@@ -29,6 +29,7 @@ async function register(data) {
     password: hashPassword,
     plan: data.plan,
     role: data.role,
+    store: data.storeName,
   };
 
   let company = null;

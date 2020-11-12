@@ -8,7 +8,7 @@ const store = require("./store");
  * Get users controller
  * @param {string} id The user id to search
  */
-function getUsers(id = null) {
+async function getUsers(id = null) {
   let filter = {};
   if (id !== null) {
     filter = { _id: id };
@@ -25,12 +25,25 @@ function getUsers(id = null) {
  * @param {string} plan User current plan
  * @param {string} role User role
  */
-async function updateUser(id, name, email, plan, role) {
+async function updateUser(id, name, email, plan, role, storeName) {
+  let userPlan = null;
+  let userStore = null;
+
+  if (plan) {
+    userPlan = plan;
+  }
+
+  if (storeName) {
+    userStore = storeName;
+  }
+
   let user = {
+    _id: id,
     name,
     email,
-    plan,
+    plan: userPlan,
     role,
+    store: userStore,
   };
 
   let filter = { _id: id };
@@ -42,6 +55,7 @@ async function updateUser(id, name, email, plan, role) {
       throw new ResponseError("Fail update: User not found", 404);
     }
   } catch (error) {
+    console.log(error);
     return error;
   }
 }
@@ -63,5 +77,5 @@ async function deleteUser(id) {
 module.exports = {
   getUsers,
   updateUser,
-  deleteUser
+  deleteUser,
 };

@@ -4,7 +4,7 @@ const Validator = [
   body("name").notEmpty().isString(),
   body("role").notEmpty().isString(),
   body("email").notEmpty().isEmail(),
-  body("plan").optional().isString(),
+  body("plan").optional(),
 ];
 
 module.exports = {

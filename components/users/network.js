@@ -71,8 +71,15 @@ router.put(
       return next(new ResponseError("Invalid data", 400, errors.array()));
     }
     const { id } = req.params;
-    const { name, email, role, plan } = req.body;
-    const result = await controller.updateUser(id, name, email, plan, role);
+    const { name, email, role, plan, storeName } = req.body;
+    const result = await controller.updateUser(
+      id,
+      name,
+      email,
+      plan,
+      role,
+      storeName
+    );
     response.success(req, res, result, "User updated");
   })
 );
