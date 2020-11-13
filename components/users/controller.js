@@ -106,8 +106,13 @@ async function updateUserStore(storeName, userId) {
  */
 async function deleteUser(id) {
   let filter = { _id: id };
+  let companyFilter = { user: id };
   try {
     const result = await store.delete(filter);
+    const company = await companyStore.list(companyFilter);
+    if (company) {
+      await companyStore.delete(companyFilter);
+    }
     return result.deletedCount > 0 ? true : false;
   } catch (error) {
     return error;
