@@ -61,7 +61,6 @@ router.patch(
   auth,
   authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
-    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return next(new ResponseError("Invalid query", 400, errors.array()));
@@ -78,7 +77,7 @@ router.patch(
     if (blockStore.length === 0) {
       return next(new ResponseError("Store not found", 404));
     }
-    response.success(req, res, blockStore, `Store ${message} successfully`);
+    response.success(req, res, blockStore[0], `Store ${message} successfully`);
   })
 );
 

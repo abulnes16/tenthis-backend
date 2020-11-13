@@ -72,6 +72,7 @@ async function login(email, password) {
   const payload = {
     id: user._id,
     role: user.role,
+    name: user.name
   };
 
   const secret = process.env.JWT_SECRET;

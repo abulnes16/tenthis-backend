@@ -9,7 +9,11 @@ const ResponseError = require("../../modules/errorResponse");
  * @param {object} filter Query filter
  */
 function getStores(filter) {
-  return Model.find(filter).populate("user").exec();
+  const populatePlan = {
+    path: "user",
+    populate: { path: "plan", select: "name" },
+  };
+  return Model.find(filter).populate("user").populate(populatePlan).exec();
 }
 
 /**

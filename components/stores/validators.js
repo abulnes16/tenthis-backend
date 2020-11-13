@@ -1,7 +1,7 @@
 const { query } = require("express-validator");
 
 const blockValidator = [
-  query("unblock").isBoolean(),
+  query("unblock").optional().isBoolean(),
 ];
 
 
