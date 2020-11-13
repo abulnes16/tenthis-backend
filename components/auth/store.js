@@ -2,7 +2,9 @@
 
 //Models
 const UserModel = require("../../models/users");
-const StoreModel = require("../../models/stores");
+
+//Store
+const companyStore = require("../stores/store");
 
 /**
  * Create user and store if user is not a client
@@ -16,8 +18,7 @@ async function register(user, company) {
     // Create a store if user is not a client
     if (company) {
       company.user = createUser._id;
-      const s = new StoreModel(company);
-      await s.save();
+      await companyStore.add(company);
     }
     //Create user
     return createUser;

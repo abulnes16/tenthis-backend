@@ -1,8 +1,11 @@
 /* User controller module */
 
-//Store
+//Response
 const ResponseError = require("../../modules/errorResponse");
+
+//Store
 const store = require("./store");
+const companyStore = require("../stores/store");
 
 /**
  * Get users controller
@@ -49,6 +52,7 @@ async function updateUser(id, name, email, plan, role, storeName) {
   let filter = { _id: id };
   try {
     const u = await store.update(filter, user);
+    const result = await updateUserStore(storeName, user._id);
     if (u.n > 0) {
       return user;
     } else {
@@ -57,6 +61,42 @@ async function updateUser(id, name, email, plan, role, storeName) {
   } catch (error) {
     console.log(error);
     return error;
+  }
+}
+
+/**
+ * Update user store, if the store doesn't exist and
+ * storeName is provided then the controller creates a store
+ * with the userId. If the store exists and the storeName is null
+ * then delete de user store.
+ * @param {string} storeName
+ * @param {string} userId
+ */
+async function updateUserStore(storeName, userId) {
+  debugger;
+  let filter = { user: userId };
+  try {
+    const company = await companyStore.list(filter);
+    if (company && storeName === null) {
+      await companyStore.delete(filter);
+    } else if (company.length === 0 && storeName !== null) {
+      const storeData = {
+        name: storeName,
+        user: userId,
+        description: "",
+        products: [],
+        categories: [],
+        pages: [],
+        configuration: null,
+        media: [],
+        isBlock: false,
+        isActive: true,
+      };
+      await companyStore.add(storeData);
+    }
+    return true;
+  } catch (error) {
+    throw new ResponseError("Internal server error", 500);
   }
 }
 

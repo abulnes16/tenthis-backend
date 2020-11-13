@@ -13,6 +13,20 @@ function getStores(filter) {
 }
 
 /**
+ * Create a store in database
+ * @param {object} data Store data
+ */
+async function createStore(data) {
+  try {
+    const s = new Model(data);
+    await s.save();
+    return s;
+  } catch (error) {
+    return error;
+  }
+}
+
+/**
  * Block the current filter store
  * @param {object} filter Store filter, contains the id
  * @param {object} data Store data to be updated (isBlock, isActive)
@@ -36,6 +50,7 @@ function deleteStore(filter) {
 
 module.exports = {
   list: getStores,
+  add: createStore,
   block: blockStore,
   delete: deleteStore,
 };
