@@ -40,7 +40,7 @@ function createTemplate(name, description, html, css, js, media) {
     //Map the files to be save in database
     files = media.map((file) => ({
       name: file.originalname,
-      path: `/uploads/${file.originalname}`,
+      path: `${process.env.API_URL}:${process.env.API_PORT}/uploads/${file.originalname}`,
       date: getFormatDate(),
     }));
   }
