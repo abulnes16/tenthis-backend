@@ -6,7 +6,7 @@ const Validators = [
   body("html").notEmpty().isString(),
   body("css").optional().isString(),
   body("js").optional().isString(),
-  body("media").optional().isArray(),
+  body("media").optional(),
 ];
 
 module.exports = {

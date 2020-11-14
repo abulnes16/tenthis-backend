@@ -1,8 +1,10 @@
 /* Template controller module */
 
 //Store
-const ResponseError = require("../../modules/errorResponse");
 const store = require("./store");
+
+//Module
+const { getFormatDate } = require("../../modules/date");
 
 /**
  * Get template controller, list the templates
@@ -35,7 +37,12 @@ function createTemplate(name, description, html, css, js, media) {
   let templateCSS = "";
 
   if (media) {
-    files = [...media];
+    //Map the files to be save in database
+    files = media.map((file) => ({
+      name: file.originalname,
+      path: `/uploads/${file.originalname}`,
+      date: getFormatDate(),
+    }));
   }
   if (js) {
     templateJS = js;

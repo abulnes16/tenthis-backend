@@ -2,6 +2,8 @@
 
 //Express
 const router = require("express").Router();
+//Multer
+const upload = require("../../modules/fileUpload");
 
 //Response
 const response = require("../../modules/response");
@@ -58,6 +60,7 @@ router.get(
  */
 router.post(
   "/",
+  upload.array("media"),
   Validators,
   auth,
   authorize(["admin"]),
@@ -67,7 +70,8 @@ router.post(
       return next(new ResponseError("Invalid data", 400, errors.array()));
     }
 
-    const { name, description, html, css, js, media } = req.body;
+    const { name, description, html, css, js } = req.body;
+    const media = req.files;
     const template = await controller.createTemplate(
       name,
       description,
