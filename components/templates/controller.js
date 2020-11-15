@@ -31,16 +31,16 @@ function getTemplates(id = null) {
  * @param {string} js Template JS
  * @param {Array} media Template images
  */
-function createTemplate(name, description, html, css, js, media) {
+function createTemplate(name, description, html, css, js, media, filenames) {
   let files = [];
   let templateJS = "";
   let templateCSS = "";
 
-  if (media) {
+  if (media && filenames) {
     //Map the files to be save in database
-    files = media.map((file) => ({
-      name: file.originalname,
-      path: `${process.env.API_URL}:${process.env.API_PORT}/uploads/${file.originalname}`,
+    files = filenames.map((file) => ({
+      name: file,
+      path: `${process.env.API_URL}:${process.env.API_PORT}/uploads/${file}`,
       date: getFormatDate(),
     }));
   }

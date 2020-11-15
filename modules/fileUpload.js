@@ -8,7 +8,15 @@ const multer = require("multer");
 const storage = multer.diskStorage({
   destination: "./uploads/",
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    const name = req.body.name.replace(/\s*/g, "");
+    const extension = file.mimetype.replace("image/", "");
+    const filename = `${name}-${Date.now()}.${extension}`;
+    if (req.filenames) {
+      req.filenames = [...req.filenames, filename];
+    } else {
+      req.filenames = [filename];
+    }
+    cb(null, filename);
   },
 });
 

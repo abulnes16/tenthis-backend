@@ -49,7 +49,7 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const templates = await controller.getTemplates(id);
-    response.success(req, res, templates);
+    response.success(req, res, templates[0]);
   })
 );
 
@@ -72,13 +72,15 @@ router.post(
 
     const { name, description, html, css, js } = req.body;
     const media = req.files;
+    const filenames = req.filenames;
     const template = await controller.createTemplate(
       name,
       description,
       html,
       css,
       js,
-      media
+      media,
+      filenames
     );
 
     response.success(req, res, template, "Template created", 201);
