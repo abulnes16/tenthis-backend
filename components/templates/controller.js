@@ -5,6 +5,7 @@ const store = require("./store");
 
 //Module
 const { getFormatDate } = require("../../modules/date");
+const { deleteFiles } = require("../../modules/files");
 
 /**
  * Get template controller, list the templates
@@ -102,10 +103,13 @@ async function updateTemplate(id, name, description, html, css, js, media) {
 async function deleteTemplate(id) {
   try {
     let filter = { _id: id };
+    const template = await store.list(filter);
+    await deleteFiles(template[0]);
     const result = await store.delete(filter);
     return result.deletedCount > 0 ? true : false;
   } catch (error) {
-    return error;
+    console.log(error);
+    return false;
   }
 }
 
