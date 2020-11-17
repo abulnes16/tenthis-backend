@@ -74,6 +74,8 @@ function createTemplate(name, description, html, css, js, media, filenames) {
  * @param {string} css Template CSS
  * @param {string} js Template JS
  * @param {Array} media Template images
+ * @param {Array} files Multer files
+ * @param {Array} filenames Array of uploaded files
  */
 async function updateTemplate(
   id,
