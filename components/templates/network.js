@@ -94,6 +94,7 @@ router.post(
  */
 router.put(
   "/:id",
+  upload.array("files"),
   Validators,
   auth,
   authorize(["admin"]),
@@ -104,16 +105,25 @@ router.put(
     }
     const { id } = req.params;
     const { name, description, html, css, js, media } = req.body;
-    const template = await controller.updateTemplate(
+    const files = req.files;
+    const filenames = req.filenames;
+    const result = await controller.updateTemplate(
       id,
       name,
       description,
       html,
       css,
       js,
-      media
+      media,
+      files,
+      filenames
     );
-    response.success(req, res, template, "Template updated");
+
+    if (result) {
+      response.success(req, res, result, "Template updated");
+    } else {
+      return next(new ResponseError("Template not found", 404));
+    }
   })
 );
 

@@ -75,21 +75,50 @@ function createTemplate(name, description, html, css, js, media, filenames) {
  * @param {string} js Template JS
  * @param {Array} media Template images
  */
-async function updateTemplate(id, name, description, html, css, js, media) {
+async function updateTemplate(
+  id,
+  name,
+  description,
+  html,
+  css,
+  js,
+  media,
+  files,
+  filenames
+) {
+  let templateFiles = [];
+
+  // There are no new files to add
+  if (files.length === 0) {
+    //So update the media with current data
+    templateFiles = JSON.parse(media);
+  } else if (media && filenames) {
+    //If there new files map the files to json format
+    const newFiles = filenames.map((file) => ({
+      name: file,
+      path: `${process.env.API_URL}:${process.env.API_PORT}/uploads/${file}`,
+      date: getFormatDate(),
+    }));
+    //Parse the previous values
+    const previousMedia = JSON.parse(media);
+    // And join them together
+    templateFiles = [...previousMedia, ...newFiles];
+  }
+
   let template = {
     name,
     description,
     html,
     css,
     js,
-    media,
+    media: templateFiles,
   };
 
   let filter = { _id: id };
 
   try {
     const t = await store.update(filter, template);
-    return t;
+    return t ? true : false;
   } catch (error) {
     return error;
   }
