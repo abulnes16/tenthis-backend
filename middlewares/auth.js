@@ -22,6 +22,7 @@ function auth(req, res, next) {
   const user = {
     id: decoded.id,
     role: decoded.role,
+    store: decoded.store,
   };
 
   req.user = user;

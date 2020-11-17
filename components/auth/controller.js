@@ -69,10 +69,18 @@ async function login(email, password) {
     throw new ResponseError("Invalid user or password", 400);
   }
 
+  let storeId = "";
+  if (user.role === "owner") {
+    let filter = { user: user._id };
+    const company = await store.getUserStore(filter);
+    storeId = company._id;
+  }
+
   const payload = {
     id: user._id,
     role: user.role,
-    name: user.name
+    name: user.name,
+    store: storeId,
   };
 
   const secret = process.env.JWT_SECRET;

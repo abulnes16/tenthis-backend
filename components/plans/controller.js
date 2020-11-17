@@ -1,7 +1,6 @@
 /* Plans controller module */
 
 //Modules
-const ResponseError = require("../../modules/errorResponse");
 const store = require("./store");
 
 /**

@@ -6,6 +6,7 @@ const plan = require("../components/plans/network");
 const store = require("../components/stores/network");
 const user = require("../components/users/network");
 const template = require("../components/templates/network");
+const category = require("../components/categories/network");
 
 const router = (server) => {
   server.use("/auth", auth);
@@ -13,6 +14,7 @@ const router = (server) => {
   server.use("/store", store);
   server.use("/plan", plan);
   server.use("/template", template);
+  server.use("/category", category);
 };
 
 module.exports = router;

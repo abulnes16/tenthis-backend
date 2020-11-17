@@ -2,6 +2,7 @@
 
 //Models
 const UserModel = require("../../models/users");
+const StoreModel = require("../../models/stores");
 
 //Store
 const companyStore = require("../stores/store");
@@ -35,7 +36,16 @@ async function getUser(email) {
   return UserModel.findOne({ email }).select("+password");
 }
 
+/**
+ * Get user store
+ * @param {object} filter User filter
+ */
+async function getUserStore(filter) {
+  return StoreModel.findOne(filter).select("user");
+}
+
 module.exports = {
   register,
   getUser,
+  getUserStore,
 };
