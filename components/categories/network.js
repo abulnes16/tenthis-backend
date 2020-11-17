@@ -9,12 +9,10 @@ const response = require("../../modules/response");
 //Auth middlewares
 const { auth, authorize } = require("../../middlewares/auth");
 
-//Permissions
-const { isOwner } = require("../../middlewares/permissions");
 
 //Validators
 const { validationResult } = require("express-validator");
-const { Validator } = require("./validators");
+const Validator = require("./validators");
 
 //Controller
 const controller = require("./controller");
@@ -22,15 +20,13 @@ const controller = require("./controller");
 //Handlers
 const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
-const Validators = require("./validators");
 
 router.get(
   "/",
   auth,
   authorize(["owner"]),
-  isOwner,
   asyncHandler(async (req, res, next) => {
-    const storeId = req.storeId;
+    const storeId = req.user.store;
     const categories = await controller.getCategories(storeId);
     response.success(req, res, categories);
   })
@@ -40,32 +36,30 @@ router.get(
   "/:id",
   auth,
   authorize(["owner"]),
-  isOwner,
   asyncHandler(async (req, res, next) => {
-    const storeId = req.storeId;
+    const storeId = req.user.store;
     const { id } = req.params;
     const category = await controller.getCategories(storeId, id);
     if (category[0]) {
       response.success(req, res, category[0]);
-    }else {
-      return next(new ResponseError('Category not found', 404));
+    } else {
+      return next(new ResponseError("Category not found", 404));
     }
   })
 );
 
 router.post(
   "/",
-  Validators,
+  Validator,
   auth,
   authorize(["owner"]),
-  isOwner,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return next(new ResponseError("Invalid data", 400, errors.array()));
     }
     const { name, description } = req.body;
-    const storeId = req.storeId;
+    const storeId = req.user.store;
     const category = await controller.createCategory(
       name,
       description,
@@ -78,10 +72,9 @@ router.post(
 
 router.put(
   "/:id",
-  Validators,
+  Validator,
   auth,
   authorize(["owner"]),
-  isOwner,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -89,7 +82,7 @@ router.put(
     }
 
     const { name, description } = req.body;
-    const storeId = req.storeId;
+    const storeId = req.user.store;
     const { id } = req.params;
 
     const category = await controller.updateCategory(
@@ -111,10 +104,9 @@ router.delete(
   "/:id",
   auth,
   authorize(["owner"]),
-  isOwner,
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const storeId = req.storeId;
+    const storeId = req.user.store;
 
     const result = await controller.deleteCategory(id, storeId);
     if (result) {
