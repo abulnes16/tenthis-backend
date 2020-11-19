@@ -10,11 +10,13 @@ const { getFormatDate } = require("./date");
  * @param {object} data
  */
 function deleteFiles(data) {
-  data.media.forEach((file) => {
-    fs.unlink(`./uploads/${file.name}`, () => {
-      console.log("File deleted");
+  if (data.media) {
+    data.media.forEach((file) => {
+      fs.unlink(`./uploads/${file.name}`, () => {
+        console.log("File deleted");
+      });
     });
-  });
+  }
 
   return true;
 }
@@ -38,7 +40,7 @@ function updateFiles(media, files, filenames) {
   let updatedFiles = [];
 
   // There are no new files to add
-  if (files.length === 0) {
+  if (files && files.length === 0) {
     //So update the media with current data
     updatedFiles = JSON.parse(media);
   } else if (media && filenames) {

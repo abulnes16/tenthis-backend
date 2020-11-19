@@ -110,6 +110,7 @@ async function updateProduct(
   const productFiles = updateFiles(media, files, filenames);
 
   const product = {
+    _id: id,
     name,
     description,
     price,
@@ -124,7 +125,7 @@ async function updateProduct(
 
   try {
     const p = await store.update(filter, product);
-    return p ? p : false;
+    return p ? product : false;
   } catch (error) {
     return error;
   }
@@ -140,7 +141,11 @@ async function deleteProduct(id, storeId) {
   let filter = { _id: id, store: storeId };
   try {
     const product = await store.list(filter);
-    deleteFiles(product[0]);
+
+    if (product.length !== 0) {
+      deleteFiles(product[0]);
+    }
+
     const result = await store.delete(filter);
     return result.deletedCount > 0 ? true : false;
   } catch (error) {

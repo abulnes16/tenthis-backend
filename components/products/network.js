@@ -133,7 +133,8 @@ router.delete(
   authorize(["owner"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const result = await controller.deleteProduct(id);
+    const storeId = req.user.store;
+    const result = await controller.deleteProduct(id, storeId);
     if (result) {
       response.success(req, res, null, "Product deleted");
     } else {
