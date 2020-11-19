@@ -5,7 +5,7 @@ const store = require("./store");
 
 //Module
 const { getFormatDate } = require("../../modules/date");
-const { deleteFiles } = require("../../modules/files");
+const { deleteFiles, updateFiles } = require("../../modules/files");
 
 /**
  * Get template controller, list the templates
@@ -41,7 +41,7 @@ function createTemplate(name, description, html, css, js, media, filenames) {
     //Map the files to be save in database
     files = filenames.map((file) => ({
       name: file,
-      path: `${process.env.API_URL}:${process.env.API_PORT}/uploads/${file}`,
+      path: generateFilePath(file),
       date: getFormatDate(),
     }));
   }
@@ -88,24 +88,8 @@ async function updateTemplate(
   files,
   filenames
 ) {
-  let templateFiles = [];
-
-  // There are no new files to add
-  if (files.length === 0) {
-    //So update the media with current data
-    templateFiles = JSON.parse(media);
-  } else if (media && filenames) {
-    //If there new files map the files to json format
-    const newFiles = filenames.map((file) => ({
-      name: file,
-      path: `${process.env.API_URL}:${process.env.API_PORT}/uploads/${file}`,
-      date: getFormatDate(),
-    }));
-    //Parse the previous values
-    const previousMedia = JSON.parse(media);
-    // And join them together
-    templateFiles = [...previousMedia, ...newFiles];
-  }
+  
+  let templateFiles = updateFiles(media, files, filenames);
 
   let template = {
     name,
@@ -135,7 +119,7 @@ async function deleteTemplate(id) {
   try {
     let filter = { _id: id };
     const template = await store.list(filter);
-    await deleteFiles(template[0]);
+    deleteFiles(template[0]);
     const result = await store.delete(filter);
     return result.deletedCount > 0 ? true : false;
   } catch (error) {
