@@ -22,6 +22,23 @@ function deleteFiles(data) {
 }
 
 /**
+ * Delete a file from upload folder
+ * @param {string} filename The filename
+ */
+function deleteFile(filename) {
+  try {
+    fs.unlink(`./uploads/${filename}`, () => {
+      console.log("File deleted");
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+/**
  * Function that generates filepath string
  * @param {string} filename
  */
@@ -61,6 +78,7 @@ function updateFiles(media, files, filenames) {
 
 module.exports = {
   deleteFiles,
+  deleteFile,
   generateFilePath,
   updateFiles,
 };
