@@ -55,7 +55,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return next(new ResponseError("Invalid data", 404, errors.array()));
+      return next(new ResponseError("Invalid data", 400, errors.array()));
     }
 
     const storeId = req.user.store;
@@ -88,9 +88,8 @@ router.put(
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return next(new ResponseError("Invalid data", 404, errors.array()));
+      return next(new ResponseError("Invalid data", 400, errors.array()));
     }
-
     const storeId = req.user.store;
     const { id } = req.params;
     const {

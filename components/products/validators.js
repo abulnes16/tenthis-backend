@@ -6,7 +6,7 @@ const Validator = [
   body("price").notEmpty().isNumeric(),
   body("category").notEmpty().isString(),
   body("quantity").notEmpty().isNumeric(),
-  body("tags").optional().isArray(),
+  body("tags").optional().isString(),
   body("media").optional(),
 ];
 

@@ -35,7 +35,7 @@ function getProducts(storeId, id = null) {
  * @param {number} price Product price
  * @param {string} category Product category
  * @param {number} quantity Product quantity
- * @param {Array<string>} tags Product tags
+ * @param {string} tags Product tags
  * @param {Array} media Product media
  * @param {Array<string>} filenames Product media filenames
  * @param {string} storeId Store id
@@ -52,6 +52,7 @@ async function createProduct(
   storeId
 ) {
   let files = [];
+  let tagsArray;
   if (media && filenames) {
     files = filenames.map((file) => ({
       name: file,
@@ -60,13 +61,15 @@ async function createProduct(
     }));
   }
 
+  tagsArray = tags.split(",");
+
   const product = {
     name,
     description,
     price,
     category,
     quantity,
-    tags,
+    tags: tagsArray,
     store: storeId,
     media: files,
   };
@@ -75,6 +78,7 @@ async function createProduct(
     const p = await store.add(product);
     return p;
   } catch (error) {
+    console.log(error);
     return error;
   }
 }
