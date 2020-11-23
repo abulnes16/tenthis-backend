@@ -7,10 +7,15 @@ const store = require("./store");
  * Store controller, get the store
  * @param {string} id Store id
  */
-function getStores(id = null) {
+function getStores(user, id = null) {
   let filter = {};
+
+  if (user.role === "client") {
+    filter = { isBlock: false };
+  }
+
   if (id !== null) {
-    filter = { _id: id };
+    filter = { ...filter, _id: id };
   }
 
   return store.list(filter);

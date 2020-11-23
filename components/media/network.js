@@ -22,6 +22,13 @@ const controller = require("./controller");
 const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
 
+/**
+ * @route GET /media
+ * @query bulk Boolean that indicates if endpoint should 
+ *             return a specific array of media
+ * @description Endpoint for listing media files
+ * @access owner
+ */
 router.get(
   "/",
   getValidators,
@@ -43,6 +50,11 @@ router.get(
   })
 );
 
+/**
+ * @route GET /media/:id
+ * @description Endpoint for listing media file by id
+ * @access owner
+ */
 router.get(
   "/:id",
   auth,
@@ -55,6 +67,12 @@ router.get(
   })
 );
 
+
+/**
+ * @route POST /media
+ * @description Endpoint for uploading media files 
+ * @access owner
+ */
 router.post(
   "/",
   upload.single("media"),
@@ -70,6 +88,12 @@ router.post(
   })
 );
 
+
+/**
+ * @route DELETE /media/:id
+ * @description Endpoint for deleting media files by id
+ * @access owner
+ */
 router.delete(
   "/:id",
   auth,

@@ -23,6 +23,13 @@ const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
 const Validator = require("./validators");
 
+
+
+/**
+ * @route GET /product
+ * @description Endpoint for listing products
+ * @access owner
+ */
 router.get(
   "/",
   auth,
@@ -34,6 +41,12 @@ router.get(
   })
 );
 
+
+/**
+ * @route GET /product/:id
+ * @description Endpoint for listing product by id
+ * @access owner
+ */
 router.get(
   "/:id",
   auth,
@@ -46,6 +59,13 @@ router.get(
   })
 );
 
+
+
+/**
+ * @route POST /product
+ * @description Endpoint for creating products
+ * @access owner
+ */
 router.post(
   "/",
   upload.array("media"),
@@ -79,6 +99,12 @@ router.post(
   })
 );
 
+
+/**
+ * @route PUT /product/:id
+ * @description Endpoint for updating products
+ * @access owner
+ */
 router.put(
   "/:id",
   upload.array("files"),
@@ -126,6 +152,12 @@ router.put(
   })
 );
 
+
+/**
+ * @route DELETE /product/:id
+ * @description Endpoint for deleting products
+ * @access owner
+ */
 router.delete(
   "/:id",
   auth,

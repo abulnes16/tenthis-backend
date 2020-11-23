@@ -20,6 +20,13 @@ const controller = require("./controller");
 const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
 
+
+
+/**
+ * @route GET /order
+ * @description Endpoint for listing orders
+ * @access owner, client
+ */
 router.get(
   "/",
   auth,
@@ -31,6 +38,12 @@ router.get(
   })
 );
 
+
+/**
+ * @route GET /order
+ * @description Endpoint for listing order by id
+ * @access owner, client
+ */
 router.get(
   "/:id",
   auth,
@@ -43,6 +56,12 @@ router.get(
   })
 );
 
+
+/**
+ * @route POST /order
+ * @description Endpoint for creating orders
+ * @access client
+ */
 router.post(
   "/",
   Validators,

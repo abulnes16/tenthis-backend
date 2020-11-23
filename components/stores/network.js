@@ -26,9 +26,10 @@ const ResponseError = require("../../modules/errorResponse");
 router.get(
   "/",
   auth,
-  authorize(["admin"]),
+  authorize(["admin", "client"]),
   asyncHandler(async (req, res, next) => {
-    const stores = await controller.getStores();
+    const user = req.user;
+    const stores = await controller.getStores(user);
     response.success(req, res, stores);
   })
 );
@@ -44,7 +45,8 @@ router.get(
   authorize(["admin", "owner"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const stores = await controller.getStores(id);
+    const user = req.user;
+    const stores = await controller.getStores(user, id);
     response.success(req, res, stores);
   })
 );

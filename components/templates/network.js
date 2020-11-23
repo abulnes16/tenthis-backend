@@ -127,6 +127,11 @@ router.put(
   })
 );
 
+/**
+ * @route DELETE /template/:id
+ * @description Endpoint for delete a template by id
+ * @access admin
+ */
 router.delete(
   "/:id",
   auth,

@@ -21,6 +21,11 @@ const controller = require("./controller");
 const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
 
+/**
+ * @route GET /category
+ * @description Endpoint for listing categories
+ * @access owner
+ */
 router.get(
   "/",
   auth,
@@ -32,6 +37,11 @@ router.get(
   })
 );
 
+/**
+ * @route GET /category/:id
+ * @description Endpoint for listing a category based in id
+ * @access owner
+ */
 router.get(
   "/:id",
   auth,
@@ -48,6 +58,12 @@ router.get(
   })
 );
 
+
+/**
+ * @route POST /category
+ * @description Endpoint for creating categories
+ * @access owner
+ */
 router.post(
   "/",
   Validator,
@@ -70,6 +86,12 @@ router.post(
   })
 );
 
+
+/**
+ * @route PUT /category/:id
+ * @description Endpoint for updating categories by id
+ * @access owner
+ */
 router.put(
   "/:id",
   Validator,
@@ -100,6 +122,12 @@ router.put(
   })
 );
 
+
+/**
+ * @route DELETE /category/:id
+ * @description Endpoint for deleting categories by id
+ * @access owner
+ */
 router.delete(
   "/:id",
   auth,
