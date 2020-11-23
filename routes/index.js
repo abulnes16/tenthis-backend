@@ -9,6 +9,7 @@ const template = require("../components/templates/network");
 const category = require("../components/categories/network");
 const product = require("../components/products/network");
 const media = require("../components/media/network");
+const order = require("../components/orders/network");
 
 const router = (server) => {
   server.use("/auth", auth);
@@ -19,6 +20,7 @@ const router = (server) => {
   server.use("/category", category);
   server.use("/product", product);
   server.use("/media", media);
+  server.use("/order", order);
 };
 
 module.exports = router;
