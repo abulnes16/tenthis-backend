@@ -8,6 +8,7 @@ const mediaSchema = new Schema({
   name: String,
   path: String,
   date: Date,
+  type: String,
   store: { type: Schema.ObjectId, ref: "store" },
 });
 

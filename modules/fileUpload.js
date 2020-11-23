@@ -11,10 +11,11 @@ const storage = multer.diskStorage({
     const name = req.body.name.replace(/\s*/g, "");
     const extension = file.originalname.split(".").pop();
     const filename = `${name}-${Date.now()}.${extension}`;
+    const type = file.mimetype;
     if (req.filenames) {
-      req.filenames = [...req.filenames, filename];
+      req.filenames = [...req.filenames, { name: filename, type }];
     } else {
-      req.filenames = [filename];
+      req.filenames = [{ name: filename, type }];
     }
     cb(null, filename);
   },

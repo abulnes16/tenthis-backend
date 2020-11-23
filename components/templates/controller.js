@@ -40,7 +40,7 @@ function createTemplate(name, description, html, css, js, media, filenames) {
   if (media && filenames) {
     //Map the files to be save in database
     files = filenames.map((file) => ({
-      name: file,
+      name: file.name,
       path: generateFilePath(file),
       date: getFormatDate(),
     }));

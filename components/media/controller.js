@@ -40,11 +40,12 @@ function getBulkMedia(storeId, filesIds) {
  * @param {string} storeId Store id
  * @param {string} filename File reference name
  */
-async function createMedia(storeId, filename) {
+async function createMedia(storeId, file) {
   const media = {
-    name: filename[0],
-    path: generateFilePath(filename[0]),
+    name: file[0].name,
+    path: generateFilePath(file[0].name),
     date: getFormatDate(),
+    type: file[0].type,
     store: storeId,
   };
 

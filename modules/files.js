@@ -63,8 +63,8 @@ function updateFiles(media, files, filenames) {
   } else if (media && filenames) {
     //If there new files map the files to json format
     const newFiles = filenames.map((file) => ({
-      name: file,
-      path: generateFilePath(file),
+      name: file.name,
+      path: generateFilePath(file.name),
       date: getFormatDate(),
     }));
     //Parse the previous values

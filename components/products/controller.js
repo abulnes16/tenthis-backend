@@ -55,7 +55,7 @@ async function createProduct(
   let tagsArray;
   if (media && filenames) {
     files = filenames.map((file) => ({
-      name: file,
+      name: file.name,
       path: generateFilePath(file),
       date: getFormatDate(),
     }));
