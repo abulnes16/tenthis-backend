@@ -7,7 +7,7 @@ const Model = require("../../models/orders");
  * @param {Object} filter Order filter
  */
 function getOrders(filter) {
-  return Model.find(filter);
+  return Model.find(filter).populate('client');
 }
 
 /**
