@@ -13,7 +13,7 @@ const upload = require("../../modules/fileUpload");
 const { auth, authorize } = require("../../middlewares/auth");
 
 //Validators
-const { getValidators } = require("./validators");
+const { getValidators, uploadValidators } = require("./validators");
 
 //Controller
 const controller = require("./controller");
@@ -21,10 +21,11 @@ const controller = require("./controller");
 //Handlers
 const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
+const { validationResult } = require("express-validator");
 
 /**
  * @route GET /media
- * @query bulk Boolean that indicates if endpoint should 
+ * @query bulk Boolean that indicates if endpoint should
  *             return a specific array of media
  * @description Endpoint for listing media files
  * @access owner
@@ -67,27 +68,24 @@ router.get(
   })
 );
 
-
 /**
  * @route POST /media
- * @description Endpoint for uploading media files 
+ * @description Endpoint for uploading media files
  * @access owner
  */
 router.post(
   "/",
-  upload.single("media"),
   auth,
+  upload.single("media"),
   authorize(["owner"]),
   asyncHandler(async (req, res, next) => {
     const storeId = req.user.store;
     const filename = req.filenames;
-
     const file = await controller.createMedia(storeId, filename);
 
     response.success(req, res, file, "Media created", 201);
   })
 );
-
 
 /**
  * @route DELETE /media/:id
