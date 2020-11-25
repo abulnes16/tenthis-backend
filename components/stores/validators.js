@@ -4,6 +4,7 @@ const blockValidator = [query("unblock").optional().isBoolean()];
 
 const configValidator = [
   body("name").notEmpty().isString(),
+  body("description").optional().isString(),
   body("logo").optional(),
   body("favicon").optional(),
   body("header").optional().isString(),
@@ -11,7 +12,7 @@ const configValidator = [
   body("css").optional().isString(),
   body("js").optional().isString(),
   body("useTemplate").notEmpty().isBoolean(),
-  body('template').optional().isString(),
+  body("template").optional().isString(),
 ];
 
 module.exports = {

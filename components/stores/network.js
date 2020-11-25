@@ -49,8 +49,8 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const user = req.user;
-    const stores = await controller.getStores(user, id);
-    response.success(req, res, stores);
+    const store = await controller.getStores(user, id);
+    response.success(req, res, store[0]);
   })
 );
 
@@ -105,6 +105,7 @@ router.patch(
     const { id } = req.params;
     const {
       name,
+      description,
       logo,
       favicon,
       keywords,
@@ -122,6 +123,7 @@ router.patch(
     const store = await controller.updateConfiguration(
       id,
       name,
+      description,
       logo,
       favicon,
       keywords,

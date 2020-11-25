@@ -61,6 +61,7 @@ function blockStore(id, unblock) {
 async function updateConfiguration(
   id,
   name,
+  description,
   logo,
   favicon,
   keywords,
@@ -113,7 +114,9 @@ async function updateConfiguration(
     template,
   };
 
-  const update = { $set: { configuration: config, name: name } };
+  const update = {
+    $set: { configuration: config, name: name, description: description },
+  };
   const filter = { _id: id };
 
   try {
