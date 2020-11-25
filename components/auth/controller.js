@@ -49,11 +49,8 @@ async function register(data) {
     company = {
       name: data.storeName,
       description: "",
-      products: [],
-      categories: [],
       pages: [],
       configuration: config,
-      media: [],
       isBlock: false,
       isActive: true,
     };
