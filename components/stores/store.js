@@ -11,7 +11,7 @@ const ResponseError = require("../../modules/errorResponse");
 function getStores(filter) {
   const populatePlan = {
     path: "user",
-    populate: { path: "plan", select: "name" },
+    populate: { path: "plan", select: ["name", "numTemplates"] },
   };
   return Model.find(filter).populate("user").populate(populatePlan).exec();
 }
