@@ -41,6 +41,23 @@ function blockStore(id, unblock) {
   return store.patch(filter, data);
 }
 
+/**
+ * Configuration patch controller
+ * Update the store configuration data
+ * @param {string} id Store id
+ * @param {string} name Store name
+ * @param {Object} logo Store logo
+ * @param {Object} favicon Store favicon
+ * @param {string} keywords Store keywords
+ * @param {string} css Global store css
+ * @param {string} js Global store javascript
+ * @param {string} header Global store header
+ * @param {string} footer Global store footer
+ * @param {boolean} useTemplate Indicates if store use a template or the global css and javascript
+ * @param {string} template Template id
+ * @param {Array} filenames Filenames that are uploaded
+ * @param {Object} files Files that are gonna be uploaded
+ */
 async function updateConfiguration(
   id,
   name,

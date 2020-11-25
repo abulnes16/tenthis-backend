@@ -86,6 +86,11 @@ router.patch(
   })
 );
 
+/**
+ * @route PATCH /store/:id/config
+ * @description Endpoint for update the config in a store by id
+ * @access owner
+ */
 router.patch(
   "/:id/config",
   upload.fields([
