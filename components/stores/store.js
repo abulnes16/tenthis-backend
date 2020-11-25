@@ -31,11 +31,11 @@ async function createStore(data) {
 }
 
 /**
- * Block the current filter store
+ * Patch the current filter store data
  * @param {object} filter Store filter, contains the id
- * @param {object} data Store data to be updated (isBlock, isActive)
+ * @param {object} data Store data to be updated
  */
-async function blockStore(filter, data) {
+async function patchStore(filter, data) {
   try {
     await Model.findOneAndUpdate(filter, data);
     return getStores(filter);
@@ -55,6 +55,6 @@ function deleteStore(filter) {
 module.exports = {
   list: getStores,
   add: createStore,
-  block: blockStore,
+  patch: patchStore,
   delete: deleteStore,
 };

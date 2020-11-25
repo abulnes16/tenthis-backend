@@ -34,13 +34,25 @@ async function register(data) {
 
   let company = null;
   if (data.role === "owner") {
+    const config = {
+      logo: null,
+      favicon: null,
+      keywords: [],
+      css: "",
+      js: "",
+      header: "",
+      footer: "",
+      useTemplate: false,
+      template: "",
+    };
+
     company = {
       name: data.storeName,
       description: "",
       products: [],
       categories: [],
       pages: [],
-      configuration: null,
+      configuration: config,
       media: [],
       isBlock: false,
       isActive: true,

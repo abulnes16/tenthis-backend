@@ -3,6 +3,10 @@
 //Store
 const store = require("./store");
 
+// Modules
+const { generateFilePath } = require("../../modules/files");
+const { getFormatDate } = require("../../modules/date");
+
 /**
  * Store controller, get the store
  * @param {string} id Store id
@@ -34,7 +38,73 @@ function blockStore(id, unblock) {
     ? { $set: { isBlock: false, isActive: true } }
     : { $set: { isBlock: true, isActive: false } };
 
-  return store.block(filter, data);
+  return store.patch(filter, data);
+}
+
+async function updateConfiguration(
+  id,
+  name,
+  logo,
+  favicon,
+  keywords,
+  css,
+  js,
+  header,
+  footer,
+  useTemplate,
+  template,
+  filenames,
+  files
+) {
+  let faviconRef = "";
+  let logoRef = "";
+  if (files && filenames) {
+    if (files.favicon) {
+      faviconRef = {
+        name: files.favicon[0].filename,
+        path: generateFilePath(files.favicon[0].filename),
+        date: getFormatDate(),
+      };
+    }
+
+    if (files.logo) {
+      logoRef = {
+        name: files.logo[0].filename,
+        path: generateFilePath(files.logo[0].filename),
+        date: getFormatDate(),
+      };
+    }
+  } else {
+    faviconRef = favicon;
+    logoRef = logo;
+  }
+
+  let keywordsArray = [];
+  if (keywords) {
+    keywordsArray = keywords.split(",");
+  }
+
+  const config = {
+    logo: logoRef,
+    favicon: faviconRef,
+    keywords: keywordsArray,
+    css,
+    js,
+    header,
+    footer,
+    useTemplate,
+    template,
+  };
+
+  const update = { $set: { configuration: config, name: name } };
+  const filter = { _id: id };
+
+  try {
+    const updateStore = await store.patch(filter, update);
+    return updateStore;
+  } catch (error) {
+    return error;
+  }
 }
 
 /**
@@ -50,5 +120,6 @@ function deleteStore(id) {
 module.exports = {
   getStores,
   blockStore,
+  updateConfiguration,
   deleteStore,
 };

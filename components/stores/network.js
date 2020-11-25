@@ -6,13 +6,16 @@ const router = require("express").Router();
 //Response
 const response = require("../../modules/response");
 
+//Multer
+const upload = require("../../modules/fileUpload");
+
 //Auth middlewares
 const { auth, authorize } = require("../../middlewares/auth");
 const asyncHandler = require("../../middlewares/asyncHandler");
 
 //Validators
 const { validationResult } = require("express-validator");
-const { blockValidator } = require("./validators");
+const { blockValidator, configValidator } = require("./validators");
 
 //Controller
 const controller = require("./controller");
@@ -80,6 +83,54 @@ router.patch(
       return next(new ResponseError("Store not found", 404));
     }
     response.success(req, res, blockStore[0], `Store ${message} successfully`);
+  })
+);
+
+router.patch(
+  "/:id/config",
+  upload.fields([
+    { name: "favicon", maxCount: 1 },
+    { name: "logo", maxCount: 1 },
+  ]),
+  configValidator,
+  auth,
+  authorize(["owner"]),
+  asyncHandler(async (req, res, next) => {
+    debugger;
+    const { id } = req.params;
+    const {
+      name,
+      logo,
+      favicon,
+      keywords,
+      header,
+      footer,
+      js,
+      css,
+      useTemplate,
+      template,
+    } = req.body;
+
+    const filenames = req.filenames;
+    const files = req.files;
+
+    const store = await controller.updateConfiguration(
+      id,
+      name,
+      logo,
+      favicon,
+      keywords,
+      css,
+      js,
+      header,
+      footer,
+      useTemplate,
+      template,
+      filenames,
+      files
+    );
+
+    response.success(req, res, store, "Store configuartion updated");
   })
 );
 
