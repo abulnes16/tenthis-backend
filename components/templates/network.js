@@ -30,7 +30,7 @@ const asyncHandler = require("../../middlewares/asyncHandler");
 router.get(
   "/",
   auth,
-  authorize(["admin"]),
+  authorize(["admin", "owner"]),
   asyncHandler(async (req, res, next) => {
     const templates = await controller.getTemplates();
     response.success(req, res, templates);

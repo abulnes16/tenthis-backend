@@ -77,30 +77,40 @@ async function updateConfiguration(
   let faviconRef = "";
   let logoRef = "";
   if (files && filenames) {
-    if (files.favicon) {
+    if (files.faviconImg) {
       faviconRef = {
-        name: files.favicon[0].filename,
-        path: generateFilePath(files.favicon[0].filename),
+        name: files.faviconImg[0].filename,
+        path: generateFilePath(files.faviconImg[0].filename),
         date: getFormatDate(),
       };
+    } else {
+      if (favicon) {
+        faviconRef = JSON.parse(favicon);
+      }
     }
 
-    if (files.logo) {
+    if (files.logoImg) {
       logoRef = {
-        name: files.logo[0].filename,
-        path: generateFilePath(files.logo[0].filename),
+        name: files.logoImg[0].filename,
+        path: generateFilePath(files.logoImg[0].filename),
         date: getFormatDate(),
       };
+    } else {
+      if (logo) {
+        logoRef = JSON.parse(logo);
+      }
     }
   } else {
-    faviconRef = favicon;
-    logoRef = logo;
+    faviconRef = JSON.parse(favicon);
+    logoRef = JSON.parse(logo);
   }
 
   let keywordsArray = [];
   if (keywords) {
     keywordsArray = keywords.split(",");
   }
+
+  const useTemplateBool = useTemplate === "true";
 
   const config = {
     logo: logoRef,
@@ -110,7 +120,7 @@ async function updateConfiguration(
     js,
     header,
     footer,
-    useTemplate,
+    useTemplate: useTemplateBool,
     template,
   };
 

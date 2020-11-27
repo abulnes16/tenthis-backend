@@ -93,15 +93,11 @@ router.patch(
  */
 router.patch(
   "/:id/config",
-  upload.fields([
-    { name: "favicon", maxCount: 1 },
-    { name: "logo", maxCount: 1 },
-  ]),
+  upload.fields([{ name: "faviconImg" }, { name: "logoImg" }]),
   configValidator,
   auth,
   authorize(["owner"]),
   asyncHandler(async (req, res, next) => {
-    debugger;
     const { id } = req.params;
     const {
       name,
@@ -117,6 +113,7 @@ router.patch(
       template,
     } = req.body;
 
+    console.log(req.files);
     const filenames = req.filenames;
     const files = req.files;
 
