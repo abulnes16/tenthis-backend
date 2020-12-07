@@ -45,7 +45,7 @@ router.get(
 router.get(
   "/:id",
   auth,
-  authorize(["admin"]),
+  authorize(["admin","owner"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const templates = await controller.getTemplates(id);
