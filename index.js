@@ -28,7 +28,7 @@ routes(app);
 
 app.use(errorHandler);
 
-app.listen(process.env.API_PORT || 5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(
     `Server listening in http://${process.env.API_URL}:${process.env.API_PORT}`
       .cyan
