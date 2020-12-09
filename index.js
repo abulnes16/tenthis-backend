@@ -21,15 +21,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 //Initialize static server for serve images
-app.use('/uploads',express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 // Load routes
 routes(app);
 
 app.use(errorHandler);
 
-app.listen(process.env.API_PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(
-    `Server listening in http://localhost:${process.env.API_PORT}`.cyan
+    `Server listening in ${process.env.API_URL}:${process.env.API_PORT}`
+      .cyan
   );
 });

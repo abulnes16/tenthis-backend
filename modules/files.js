@@ -43,7 +43,7 @@ function deleteFile(filename) {
  * @param {string} filename
  */
 function generateFilePath(filename) {
-  return `${process.env.API_URL}:${process.env.API_PORT}/uploads/${filename}`;
+  return `${process.env.API_URL}:${process.env.PORT}/uploads/${filename}`;
 }
 
 /**
