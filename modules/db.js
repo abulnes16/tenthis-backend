@@ -15,6 +15,7 @@ class Database {
   async connect() {
     const localURI = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
     const uri = process.env.NODE_ENV === "prod" ? process.env.DB_URI : localURI;
+    console.log(`DATABASE:`, uri);
     const config = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
