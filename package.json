@@ -4,10 +4,9 @@
   "description": "Backend for Tenthis Software",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js NODE_ENV=prod ",
     "dev": "nodemon index.js",
-    "debug": "nodemon --inspect index.js",
-    "start": "node index.js NODE_ENV=prod "
+    "debug": "nodemon --inspect index.js"
   },
   "keywords": [
     "Tenthis",
