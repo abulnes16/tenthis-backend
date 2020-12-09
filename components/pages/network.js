@@ -28,9 +28,14 @@ const asyncHandler = require("../../middlewares/asyncHandler");
 router.get(
   "/",
   auth,
-  authorize(["owner"]),
+  authorize(["owner", "client"]),
   asyncHandler(async (req, res, next) => {
-    const storeId = req.user.store;
+    let storeId = "";
+    if (req.user.role === "owner") {
+      storeId = req.user.store;
+    } else {
+      storeId = req.query.store;
+    }
     const pages = await controller.getPages(storeId);
     response.success(req, res, pages);
   })
@@ -44,7 +49,7 @@ router.get(
 router.get(
   "/:id",
   auth,
-  authorize(["owner"]),
+  authorize(["owner", "client"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const storeId = req.user.store;
@@ -52,7 +57,6 @@ router.get(
     response.success(req, res, page[0]);
   })
 );
-
 
 /**
  * @route POST /page

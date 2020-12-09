@@ -45,7 +45,7 @@ router.get(
 router.get(
   "/:id",
   auth,
-  authorize(["admin", "owner"]),
+  authorize(["admin", "owner", "client"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const user = req.user;
