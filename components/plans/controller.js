@@ -1,7 +1,6 @@
 /* Plans controller module */
 
 //Modules
-const ResponseError = require("../../modules/errorResponse");
 const store = require("./store");
 
 /**
@@ -37,8 +36,8 @@ async function createPlan(name, price, storage, pages, products, templates) {
       numTemplates: templates,
     };
 
-    await store.add(plan);
-    return plan;
+    const p = await store.add(plan);
+    return p;
   } catch (error) {
     return error;
   }
@@ -65,6 +64,7 @@ async function updatePlan(
 ) {
   try {
     let plan = {
+      _id: id,
       name,
       price,
       storage,
@@ -73,12 +73,8 @@ async function updatePlan(
       numTemplates: templates,
     };
     let filter = { _id: id };
-    const p = await store.update(filter, plan);
-    if (p.n > 0) {
-      return plan;
-    } else {
-      throw new ResponseError("Fail update: Plan not found", 404);
-    }
+    await store.update(filter, plan);
+    return plan;
   } catch (error) {
     return error;
   }

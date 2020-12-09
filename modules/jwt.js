@@ -9,7 +9,7 @@ const ResponseError = require("./errorResponse");
  */
 function getToken(auth) {
   if (!auth) {
-    throw new ResponseError("Invalid token", 400);
+    throw new ResponseError("Invalid token", 401);
   }
 
   if (auth.indexOf("Bearer ") === -1) {

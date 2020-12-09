@@ -21,7 +21,8 @@ async function getPlan(filter) {
  */
 async function savePlan(data) {
   const plan = new Model(data);
-  plan.save();
+  await plan.save();
+  return plan;
 }
 
 /**
@@ -30,9 +31,7 @@ async function savePlan(data) {
  * @param {object} data The plan data that it's going to be updated
  */
 async function updatePlan(filter, data) {
-  const plan = await Model.findOneAndUpdate(filter, data, {
-    useFindAndModify: false,
-  });
+  const plan = await Model.findOneAndUpdate(filter, data);
   return plan;
 }
 
@@ -40,7 +39,7 @@ async function updatePlan(filter, data) {
  * Delete a plan in the database
  * @param {object} filter Filter that contains the id of the plan
  */
-async function deletePlan(filter){
+async function deletePlan(filter) {
   const deletePlan = await Model.deleteOne(filter);
   return deletePlan;
 }

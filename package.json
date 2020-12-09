@@ -4,9 +4,9 @@
   "description": "Backend for Tenthis Software",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js NODE_ENV=prod ",
     "dev": "nodemon index.js",
-    "start": "NODE_ENV=prod node index.js "
+    "debug": "nodemon --inspect index.js"
   },
   "keywords": [
     "Tenthis",
@@ -23,6 +23,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.10"
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.10",
+    "multer": "^1.4.2"
   }
 }

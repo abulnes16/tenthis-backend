@@ -29,18 +29,28 @@ async function register(data) {
     password: hashPassword,
     plan: data.plan,
     role: data.role,
+    store: data.storeName,
   };
 
   let company = null;
   if (data.role === "owner") {
+    const config = {
+      logo: null,
+      favicon: null,
+      keywords: [],
+      css: "",
+      js: "",
+      header: "",
+      footer: "",
+      useTemplate: false,
+      template: "",
+    };
+
     company = {
       name: data.storeName,
       description: "",
-      products: [],
-      categories: [],
       pages: [],
-      configuration: null,
-      media: [],
+      configuration: config,
       isBlock: false,
       isActive: true,
     };
@@ -68,9 +78,18 @@ async function login(email, password) {
     throw new ResponseError("Invalid user or password", 400);
   }
 
+  let storeId = "";
+  if (user.role === "owner") {
+    let filter = { user: user._id };
+    const company = await store.getUserStore(filter);
+    storeId = company._id;
+  }
+
   const payload = {
     id: user._id,
     role: user.role,
+    name: user.name,
+    store: storeId,
   };
 
   const secret = process.env.JWT_SECRET;

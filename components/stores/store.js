@@ -9,15 +9,33 @@ const ResponseError = require("../../modules/errorResponse");
  * @param {object} filter Query filter
  */
 function getStores(filter) {
-  return Model.find(filter).populate("user").exec();
+  const populatePlan = {
+    path: "user",
+    populate: { path: "plan", select: ["name", "numTemplates"] },
+  };
+  return Model.find(filter).populate("user").populate(populatePlan).exec();
 }
 
 /**
- * Block the current filter store
- * @param {object} filter Store filter, contains the id
- * @param {object} data Store data to be updated (isBlock, isActive)
+ * Create a store in database
+ * @param {object} data Store data
  */
-async function blockStore(filter, data) {
+async function createStore(data) {
+  try {
+    const s = new Model(data);
+    await s.save();
+    return s;
+  } catch (error) {
+    return error;
+  }
+}
+
+/**
+ * Patch the current filter store data
+ * @param {object} filter Store filter, contains the id
+ * @param {object} data Store data to be updated
+ */
+async function patchStore(filter, data) {
   try {
     await Model.findOneAndUpdate(filter, data);
     return getStores(filter);
@@ -36,6 +54,7 @@ function deleteStore(filter) {
 
 module.exports = {
   list: getStores,
-  block: blockStore,
+  add: createStore,
+  patch: patchStore,
   delete: deleteStore,
 };

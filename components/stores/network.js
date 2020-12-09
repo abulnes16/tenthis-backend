@@ -6,13 +6,16 @@ const router = require("express").Router();
 //Response
 const response = require("../../modules/response");
 
+//Multer
+const upload = require("../../modules/fileUpload");
+
 //Auth middlewares
 const { auth, authorize } = require("../../middlewares/auth");
 const asyncHandler = require("../../middlewares/asyncHandler");
 
 //Validators
 const { validationResult } = require("express-validator");
-const { blockValidator } = require("./validators");
+const { blockValidator, configValidator } = require("./validators");
 
 //Controller
 const controller = require("./controller");
@@ -26,9 +29,10 @@ const ResponseError = require("../../modules/errorResponse");
 router.get(
   "/",
   auth,
-  authorize(["admin"]),
+  authorize(["admin", "client"]),
   asyncHandler(async (req, res, next) => {
-    const stores = await controller.getStores();
+    const user = req.user;
+    const stores = await controller.getStores(user);
     response.success(req, res, stores);
   })
 );
@@ -41,11 +45,12 @@ router.get(
 router.get(
   "/:id",
   auth,
-  authorize(["admin", "owner"]),
+  authorize(["admin", "owner", "client"]),
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const stores = await controller.getStores(id);
-    response.success(req, res, stores);
+    const user = req.user;
+    const store = await controller.getStores(user, id);
+    response.success(req, res, store[0]);
   })
 );
 
@@ -61,7 +66,6 @@ router.patch(
   auth,
   authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
-    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return next(new ResponseError("Invalid query", 400, errors.array()));
@@ -78,7 +82,59 @@ router.patch(
     if (blockStore.length === 0) {
       return next(new ResponseError("Store not found", 404));
     }
-    response.success(req, res, blockStore, `Store ${message} successfully`);
+    response.success(req, res, blockStore[0], `Store ${message} successfully`);
+  })
+);
+
+/**
+ * @route PATCH /store/:id/config
+ * @description Endpoint for update the config in a store by id
+ * @access owner
+ */
+router.patch(
+  "/:id/config",
+  upload.fields([{ name: "faviconImg" }, { name: "logoImg" }]),
+  configValidator,
+  auth,
+  authorize(["owner"]),
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const {
+      name,
+      description,
+      logo,
+      favicon,
+      keywords,
+      header,
+      footer,
+      js,
+      css,
+      useTemplate,
+      template,
+    } = req.body;
+
+    console.log(req.files);
+    const filenames = req.filenames;
+    const files = req.files;
+
+    const store = await controller.updateConfiguration(
+      id,
+      name,
+      description,
+      logo,
+      favicon,
+      keywords,
+      css,
+      js,
+      header,
+      footer,
+      useTemplate,
+      template,
+      filenames,
+      files
+    );
+
+    response.success(req, res, store, "Store configuartion updated");
   })
 );
 

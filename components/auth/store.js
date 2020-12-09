@@ -4,6 +4,9 @@
 const UserModel = require("../../models/users");
 const StoreModel = require("../../models/stores");
 
+//Store
+const companyStore = require("../stores/store");
+
 /**
  * Create user and store if user is not a client
  * @param {object} user The user to create
@@ -16,8 +19,7 @@ async function register(user, company) {
     // Create a store if user is not a client
     if (company) {
       company.user = createUser._id;
-      const s = new StoreModel(company);
-      await s.save();
+      await companyStore.add(company);
     }
     //Create user
     return createUser;
@@ -34,7 +36,16 @@ async function getUser(email) {
   return UserModel.findOne({ email }).select("+password");
 }
 
+/**
+ * Get user store
+ * @param {object} filter User filter
+ */
+async function getUserStore(filter) {
+  return StoreModel.findOne(filter).select("user");
+}
+
 module.exports = {
   register,
   getUser,
+  getUserStore,
 };

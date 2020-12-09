@@ -11,7 +11,7 @@ const response = require("../../modules/response");
 
 //Validators
 const { validationResult } = require("express-validator");
-const { updateValidator } = require("./validators");
+const { Validator } = require("./validators");
 
 //Handlers
 const ResponseError = require("../../modules/errorResponse");
@@ -61,7 +61,7 @@ router.get(
  */
 router.put(
   "/:id",
-  updateValidator,
+  Validator,
   auth,
   authorize(["admin"]),
   asyncHandler(async (req, res, next) => {
@@ -71,15 +71,22 @@ router.put(
       return next(new ResponseError("Invalid data", 400, errors.array()));
     }
     const { id } = req.params;
-    const { name, email, role, plan } = req.body;
-    const result = await controller.updateUser(id, name, email, plan, role);
+    const { name, email, role, plan, storeName } = req.body;
+    const result = await controller.updateUser(
+      id,
+      name,
+      email,
+      plan,
+      role,
+      storeName
+    );
     response.success(req, res, result, "User updated");
   })
 );
 
 /**
  * @route DELETE /user/:id
- * @description Endpoint for delete an user 
+ * @description Endpoint for delete an user
  * @access admin
  */
 router.delete(

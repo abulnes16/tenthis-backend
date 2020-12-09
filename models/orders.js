@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ordersSchema = new Schema({
-  numOrder: Number,
-  client: { type: Schema.ObjectId, ref: 'User'},
+  client: { type: Schema.ObjectId, ref: "user" },
+  store: { type: Schema.ObjectId, ref: "store" },
   date: Date,
   total: Number,
   products: Array,

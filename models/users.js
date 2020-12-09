@@ -10,6 +10,7 @@ const userSchema = new Schema({
   password: { type: String, required: true, select: false },
   plan: { type: Schema.ObjectId, ref: "plan", required: false },
   role: { type: String, required: true },
+  store: { type: String, required: false },
 });
 
 module.exports = new mongoose.model("user", userSchema);
