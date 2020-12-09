@@ -21,15 +21,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 //Initialize static server for serve images
-app.use('/uploads',express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 // Load routes
 routes(app);
 
 app.use(errorHandler);
 
-app.listen(process.env.API_PORT, () => {
-  console.log(
-    `Server listening in http://${process.env.API_URL}:${process.env.API_PORT}`.cyan
-  );
-});
+app.listen(
+  process.env.NODE_ENV === "production"
+    ? process.env.API_URL
+    : process.env.API_PORT,
+  () => {
+    console.log(
+      `Server listening in http://${process.env.API_URL}:${process.env.API_PORT}`
+        .cyan
+    );
+  }
+);
