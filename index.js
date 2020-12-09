@@ -28,14 +28,9 @@ routes(app);
 
 app.use(errorHandler);
 
-app.listen(
-  process.env.NODE_ENV === "production"
-    ? process.env.API_URL
-    : process.env.API_PORT,
-  () => {
-    console.log(
-      `Server listening in http://${process.env.API_URL}:${process.env.API_PORT}`
-        .cyan
-    );
-  }
-);
+app.listen(process.env.API_PORT || 5000, () => {
+  console.log(
+    `Server listening in http://${process.env.API_URL}:${process.env.API_PORT}`
+      .cyan
+  );
+});
