@@ -39,10 +39,10 @@ router.get(
     const { bulk } = req.query;
     const storeId = req.user.store;
     let files;
-
     if (bulk) {
-      const { media } = req.body;
-      files = await controller.getBulkMedia(storeId, media);
+      const { media } = req.query;
+      const fileIds = JSON.parse(media);
+      files = await controller.getBulkMedia(storeId, fileIds);
     } else {
       files = await controller.getMedia(storeId);
     }

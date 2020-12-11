@@ -23,8 +23,6 @@ const ResponseError = require("../../modules/errorResponse");
 const asyncHandler = require("../../middlewares/asyncHandler");
 const Validator = require("./validators");
 
-
-
 /**
  * @route GET /product
  * @description Endpoint for listing products
@@ -35,12 +33,12 @@ router.get(
   auth,
   authorize(["owner"]),
   asyncHandler(async (req, res, next) => {
+    const { category } = req.query;
     const storeId = req.user.store;
-    const products = await controller.getProducts(storeId);
+    const products = await controller.getProducts(storeId, null, category);
     response.success(req, res, products);
   })
 );
-
 
 /**
  * @route GET /product/:id
@@ -58,8 +56,6 @@ router.get(
     response.success(req, res, products[0]);
   })
 );
-
-
 
 /**
  * @route POST /product
@@ -98,7 +94,6 @@ router.post(
     response.success(req, res, product, "Product created", 201);
   })
 );
-
 
 /**
  * @route PUT /product/:id
@@ -151,7 +146,6 @@ router.put(
     }
   })
 );
-
 
 /**
  * @route DELETE /product/:id

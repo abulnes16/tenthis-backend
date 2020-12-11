@@ -30,7 +30,7 @@ function getMedia(storeId, id = null) {
  * @param {Array<string>} filesIds Array of media ids
  */
 function getBulkMedia(storeId, filesIds) {
-  const filter = { store: storeId, $in: [...filesIds] };
+  const filter = { store: storeId, _id: { $in: [...filesIds] } };
   return store.list(filter);
 }
 

@@ -18,10 +18,14 @@ const {
  * @param {string} storeId Store id
  * @param {string} id Product id
  */
-function getProducts(storeId, id = null) {
+function getProducts(storeId, id = null, category = null) {
   let filter = { store: storeId };
   if (id) {
     filter = { ...filter, _id: id };
+  }
+
+  if (category) {
+    filter = { ...filter, category };
   }
 
   return store.list(filter);
@@ -56,7 +60,7 @@ async function createProduct(
   if (media && filenames) {
     files = filenames.map((file) => ({
       name: file.name,
-      path: generateFilePath(file),
+      path: generateFilePath(file.name),
       date: getFormatDate(),
     }));
   }
