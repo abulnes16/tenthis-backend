@@ -24,9 +24,10 @@ function getProducts(storeId, id = null, category = null) {
     filter = { ...filter, _id: id };
   }
 
-  if (category) {
+  if (category !== "" && category !== null) {
     filter = { ...filter, category };
   }
+
 
   return store.list(filter);
 }

@@ -31,10 +31,15 @@ const Validator = require("./validators");
 router.get(
   "/",
   auth,
-  authorize(["owner"]),
+  authorize(["owner", "client"]),
   asyncHandler(async (req, res, next) => {
     const { category } = req.query;
-    const storeId = req.user.store;
+    let storeId = "";
+    if (req.user.role === "owner") {
+      storeId = req.user.store;
+    } else {
+      storeId = req.query.store;
+    }
     const products = await controller.getProducts(storeId, null, category);
     response.success(req, res, products);
   })

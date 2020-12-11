@@ -37,7 +37,12 @@ router.get(
   authorize(["owner"]),
   asyncHandler(async (req, res, next) => {
     const { bulk } = req.query;
-    const storeId = req.user.store;
+    let storeId = "";
+    if (req.user.role === "owner") {
+      storeId = req.user.store;
+    }else {
+      storeId = req.query.store;
+    }
     let files;
     if (bulk) {
       const { media } = req.query;
