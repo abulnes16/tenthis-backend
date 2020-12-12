@@ -34,15 +34,20 @@ router.get(
   "/",
   getValidators,
   auth,
-  authorize(["owner"]),
+  authorize(["owner", "client"]),
   asyncHandler(async (req, res, next) => {
     const { bulk } = req.query;
-    const storeId = req.user.store;
+    let storeId = "";
+    if (req.user.role === "owner") {
+      storeId = req.user.store;
+    }else {
+      storeId = req.query.store;
+    }
     let files;
-
     if (bulk) {
-      const { media } = req.body;
-      files = await controller.getBulkMedia(storeId, media);
+      const { media } = req.query;
+      const fileIds = JSON.parse(media);
+      files = await controller.getBulkMedia(storeId, fileIds);
     } else {
       files = await controller.getMedia(storeId);
     }
@@ -59,9 +64,14 @@ router.get(
 router.get(
   "/:id",
   auth,
-  authorize(["owner"]),
+  authorize(["owner", "client"]),
   asyncHandler(async (req, res, next) => {
-    const storeId = req.user.store;
+    let storeId = "";
+    if (req.user.role === "owner") {
+      storeId = req.user.store;
+    }else {
+      storeId = req.query.store;
+    }
     const { id } = req.params;
     const file = await controller.getMedia(storeId, id);
     response.success(req, res, file[0]);
