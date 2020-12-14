@@ -6,6 +6,7 @@ const store = require("./store");
 //Modules
 const { generateFilePath, deleteFile } = require("../../modules/files");
 const { getFormatDate } = require("../../modules/date");
+const moment = require("moment");
 
 /**
  * Get media controller
@@ -44,15 +45,17 @@ async function createMedia(storeId, file) {
   const media = {
     name: file[0].name,
     path: generateFilePath(file[0].name),
-    date: getFormatDate(),
+    date: moment().format("l"),
     type: file[0].type,
     store: storeId,
   };
 
   try {
     const m = await store.add(media);
+
     return m;
   } catch (error) {
+    console.log(error);
     return error;
   }
 }

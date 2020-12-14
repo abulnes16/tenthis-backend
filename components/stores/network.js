@@ -113,7 +113,6 @@ router.patch(
       template,
     } = req.body;
 
-    console.log(req.files);
     const filenames = req.filenames;
     const files = req.files;
 
@@ -133,7 +132,6 @@ router.patch(
       filenames,
       files
     );
-
     response.success(req, res, store, "Store configuartion updated");
   })
 );
